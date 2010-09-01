@@ -9,7 +9,7 @@
 
 (load-file "~/src/emacs/cedet/common/cedet.el")
 
-(semantic-load-enable-excessive-code-helpers)
+(semantic-load-enable-code-helpers)
 ;;(semantic-load-enable-semantic-debugging-helpers)
 
 (setq senator-minor-mode-name "SN")

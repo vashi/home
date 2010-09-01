@@ -13,27 +13,34 @@
 ;;(setq c-eldoc-includes "-I~/exp/include -I./ -I../ ")
 
 ;; customisation of cc-mode
-(defun alexott/c-mode-common-hook ()
+(defun vash/c-mode-common-hook ()
   ;; style customization
   (c-set-offset 'member-init-intro '++)
   (setq tab-width 4)
-  (setq   indent-tabs-mode t)
+  ;;(setq indent-tabs-mode t)
   (c-set-offset 'substatement-open 0)
   (c-set-style "ellemtel")
   (setq c-basic-offset 4)
   (c-toggle-auto-hungry-state 0)
   ;; minor modes
   (auto-fill-mode 1)
-  (c-turn-on-eldoc-mode)
+  ;;(c-turn-on-eldoc-mode)
   (gtags-mode 1)
   (hs-minor-mode 1)
   ;; local keys
-  (local-set-key [return] 'newline-and-indent)
+  ;;(local-set-key [return] 'newline-and-indent)
   ;;        (local-set-key [delete]  'delete-char)
   )
-(add-hook 'c-mode-common-hook 'alexott/c-mode-common-hook)
+
+(defun vash/c++-mode-hook ()
+  ;; style customization
+  (c-set-offset 'innamespace 0)
+  )
+
+(add-hook 'c-mode-common-hook 'vash/c-mode-common-hook)
 (add-hook 'c-mode-common-hook 'alexott/common-hook)
 (add-hook 'c-mode-common-hook 'alexott/show-prog-keywords)
+(add-hook 'c++-mode-hook 'vash/c++-mode-hook)
 
 (require 'info-look)
 (info-lookup-add-help
