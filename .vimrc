@@ -18,6 +18,8 @@ set autowrite
 set ts=8
 set sts=4
 set ai				" always set autoindenting on
+set expandtab
+autocmd FileType make,shell set noexpandtab
 "set cindent
 set shiftwidth=4
 set cino=^-.5s,{.5s,=10,g0,t0
@@ -163,7 +165,7 @@ if has("autocmd")
   " Also load indent files, to automatically do language-dependent indenting.
   filetype plugin indent on
 
-  autocmd BufRead,BufNewFile *.c*,*.h,*.hpp set et!
+  autocmd BufRead,BufNewFile *.c*,*.h,*.hpp set et
   " Put these in an autocmd group, so that we can delete them easily.
   augroup vimrcEx
   au!

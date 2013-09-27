@@ -12,6 +12,7 @@
 (require 'cl)
 (require 'ecb)
 
+(setq stack-trace-on-error t)
 (setq-default ecb-tip-of-the-day nil)
 
 

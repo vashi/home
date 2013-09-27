@@ -7,32 +7,57 @@
 ;; Requirements:
 ;; Status: not intended to be distributed yet
 
-(load-file "~/src/emacs/cedet/common/cedet.el")
+;;(load-file "~/src/emacs/cedet/common/cedet.el")
+(add-to-list 'load-path "~/src/emacs/cedet-git/contrib")
+(require 'cedet)
 
-(semantic-load-enable-code-helpers)
+;;(add-to-list 'semantic-default-submodes 'global-semantic-idle-summary-mode)
+(add-to-list 'semantic-default-submodes 'global-semantic-mru-bookmark-mode)
+(add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
+(add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode)
+;(add-to-list 'semantic-default-submodes 'global-semantic-stickyfunc-mode)
+(add-to-list 'semantic-default-submodes 'global-cedet-m3-minor-mode)
+(add-to-list 'semantic-default-submodes 'global-semantic-highlight-func-mode)
+;;(add-to-list 'semantic-default-submodes 'global-semantic-show-unmatched-syntax-mode)
+;;(add-to-list 'semantic-default-submodes 'global-semantic-highlight-edits-mode)
+;;(add-to-list 'semantic-default-submodes 'global-semantic-show-parser-state-mode)
+;;(add-to-list 'semantic-default-submodes ')
+
+;; Activate semantic
+(semantic-mode 1)
+
+(require 'semantic/bovine/c)
+(require 'semantic/bovine/gcc)
+;;(require 'semantic/bovine/clang)
+(require 'semantic/ia)
+(require 'semantic/decorate/include)
+(require 'semantic/lex-spp)
+(require 'eassist)
+
+;;(semantic-load-enable-code-helpers)
 ;;(semantic-load-enable-semantic-debugging-helpers)
 
-(setq senator-minor-mode-name "SN")
-(setq semantic-imenu-auto-rebuild-directory-indexes nil)
-(global-srecode-minor-mode 1)
-(global-semantic-mru-bookmark-mode 1)
+;;(setq senator-minor-mode-name "SN")
+;;(setq semantic-imenu-auto-rebuild-directory-indexes nil)
+;;(global-srecode-minor-mode 1)
+;;(global-semantic-mru-bookmark-mode 1)
 
-(require 'semantic-decorate-include)
+;;(require 'semantic-decorate-include)
 
 ;; gcc setup
-(require 'semantic-gcc)
+;;(require 'semantic-gcc)
 
 ;; smart complitions
-(require 'semantic-ia)
+;;(require 'semantic-ia)
 
-(setq-mode-local c-mode semanticdb-find-default-throttle
-                 '(project unloaded system recursive))
-(setq-mode-local c++-mode semanticdb-find-default-throttle
-                 '(project unloaded system recursive))
-(setq-mode-local erlang-mode semanticdb-find-default-throttle
-                 '(project unloaded system recursive))
+;;(setq-mode-local c-mode semanticdb-find-default-throttle
+;;                 '(project unloaded system recursive))
+;;(setq-mode-local c++-mode semanticdb-find-default-throttle
+;;                 '(project unloaded system recursive))
+;;(setq-mode-local erlang-mode semanticdb-find-default-throttle
+;;                 '(project unloaded system recursive))
 
-(require 'eassist)
+;;(require 'eassist)
 
 ;; customisation of modes
 (defun alexott/cedet-hook ()
@@ -61,6 +86,7 @@
   (local-set-key "\C-xt" 'eassist-switch-h-cpp)
   (local-set-key "\C-ce" 'eassist-list-methods)
   (local-set-key "\C-c\C-r" 'semantic-symref)
+  (add-to-list 'ac-sources 'ac-source-gtags)
   )
 (add-hook 'c-mode-common-hook 'alexott/c-mode-cedet-hook)
 
@@ -78,7 +104,7 @@
 ;;(global-semantic-folding-mode 1)
 
 ;; gnu global support
-(require 'semanticdb-global)
+;;(require 'semanticdb-global)
 (semanticdb-enable-gnu-global-databases 'c-mode)
 (semanticdb-enable-gnu-global-databases 'c++-mode)
 
@@ -99,8 +125,9 @@
 ;;(global-semantic-idle-tag-highlight-mode 1)
 
 ;;; ede customization
-(require 'semantic-lex-spp)
-(global-ede-mode t)
+;;(require 'semantic-lex-spp)
+(global-ede-mode 1)
+(ede-enable-generic-projects)
 
 ;; cpp-tests project definition
 (setq cpp-tests-project
@@ -109,13 +136,60 @@
                             ;;:system-include-path '("/home/ott/exp/include"
                             ;;                       boost-base-directory)
                             :local-variables (list
-                                              (cons 'compile-command 'alexott/gen-cmake-debug-compile-string)
+                                              (cons 'compile-command 'alexott/gen-std-compile-string)
                                               )
                             ))
 
-(setq squid-gsb-project
+(setq toster-project
       (ede-cpp-root-project "toster"
                             :file "~/cms17/toster/toster.py"
+                            ;;:system-include-path '("/home/ott/exp/include"
+                            ;;                       boost-base-directory)
+                            ;;:local-variables (list
+                            ;;                  (cons 'compile-command 'alexott/gen-cmake-debug-compile-string)
+                            ;;                  )
+                            ))
+
+(setq ovftool-project
+      (ede-cpp-root-project "dissectors"
+                            :file "~/kims/src/dissectors/README.rst"
+                            ;;:system-include-path '("/home/ott/exp/include"
+                            ;;                       boost-base-directory)
+                            ;;:local-variables (list
+                            ;;                  (cons 'compile-command 'alexott/gen-cmake-debug-compile-string)
+                            ;;                  )
+                            ))
+
+(setq nettest-project
+      (ede-cpp-root-project "kims"
+                            :file "~/kims/src/default/README"
+                            ;;:system-include-path '("/home/ott/exp/include"
+                            ;;                       boost-base-directory)
+                            ;;:local-variables (list
+                            ;;                  (cons 'compile-command 'alexott/gen-cmake-debug-compile-string)
+                            ;;                  )
+                            ))
+(setq keystone-project
+      (ede-cpp-root-project "keystone"
+                            :file "~/kims/keystone/README.rst"
+                            ;;:system-include-path '("/home/ott/exp/include"
+                            ;;                       boost-base-directory)
+                            ;;:local-variables (list
+                            ;;                  (cons 'compile-command 'alexott/gen-cmake-debug-compile-string)
+                            ;;                  )
+                            ))
+(setq keystone-client-project
+      (ede-cpp-root-project "keystone-client"
+                            :file "~/kims/python-keystoneclient/README.rst"
+                            ;;:system-include-path '("/home/ott/exp/include"
+                            ;;                       boost-base-directory)
+                            ;;:local-variables (list
+                            ;;                  (cons 'compile-command 'alexott/gen-cmake-debug-compile-string)
+                            ;;                  )
+                            ))
+(setq libvirt-project
+      (ede-cpp-root-project "libvirt"
+                            :file "~/kims/src/libvirt/README"
                             ;;:system-include-path '("/home/ott/exp/include"
                             ;;                       boost-base-directory)
                             ;;:local-variables (list
